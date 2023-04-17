@@ -14,7 +14,7 @@
                 margin: 0 auto;
             }
             table tr td:last-child{
-                width: 120px;
+                width: 70px;
             }
         </style>
         <script>

@@ -22,10 +22,12 @@ class HttpRequestBase {
 	}
 
     function setUpPostReq(array $postBody) {
-        curl_setopt($this->ch, CURLOPT_POST, TRUE);
-        //json_encode($postBody);
+        curl_setopt($this->ch, CURLOPT_POST, 1);
+        curl_setopt($this->ch, CURLOPT_HTTPHEADER, array('Content-Type:application/x-www-form-urlencoded',
+        'Accept:application/json') );
+        $postBodyString = http_build_query($postBody);
 
-        curl_setopt($this->ch, CURLOPT_POSTFIELDS, json_encode($postBody));
+        curl_setopt($this->ch, CURLOPT_POSTFIELDS, $postBodyString );
     }
 
     function setUpGetReq() {

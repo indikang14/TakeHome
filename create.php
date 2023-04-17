@@ -20,18 +20,18 @@ if($_SERVER["REQUEST_METHOD"] == "POST"){
         $first_name = $input_first_name;
     }
 
-    // Validate task description (punctuation is allowed)
+    // Validate last name 
     $input_last_name = trim($_POST["lastname"]);
     if(empty($input_last_name)){
         $last_name_err = "Please enter a last name.";
     }
-    if(!filter_var($input_last_name, FILTER_VALIDATE_REGEXP, array("options"=>array("regexp"=>"/^[a-zA-Z\s]+$/")))){
+    elseif(!filter_var($input_last_name, FILTER_VALIDATE_REGEXP, array("options"=>array("regexp"=>"/^[a-zA-Z\s]+$/")))){
         $last_name_err = "Please enter a valid last name. Only letters.";
     } else{
         $last_name = $input_last_name;
     }
 
-     // Validate task assignment name
+     // Validate salary 
      $input_salary = trim($_POST["salary"]);
      if(empty($input_salary)){
         $salary_err = "Please enter an annual salary.";
@@ -40,20 +40,18 @@ if($_SERVER["REQUEST_METHOD"] == "POST"){
      } else{
          $salary = $input_salary;
      }
-    // Check input errors before inserting in database
+    // Check input errors before accessing create api
     if(empty($first_name_err) && empty($last_name_err) && empty($salary_err) ){
         $curl = new HttpRequestBase();
         $curl->setUpCurlUrl("http://localhost/TakeHome/employee/create/");
         $newEmployeeDetails = array("firstname" => $first_name,
                                     "lastname"=> $last_name,
                                     "salary" => $salary);
-        //var_dump($newEmployeeDetails);
         
         $curl->setUpPostReq($newEmployeeDetails);
         $result = $curl->executeCurl();
         var_dump($result);
-        die("let's stop right here!");
-        
+        $curl->killCurl();
         if($result){
             // Records created successfully. Redirect to landing page
             header("location: index.php");

@@ -12,6 +12,7 @@ if(isset($_POST["id"]) && !empty($_POST["id"])){
     if(!$result) {
         die("delete api couldnt be reached!");
     }
+    $curl->killCurl();
 
     header("location: index.php");
     exit();
