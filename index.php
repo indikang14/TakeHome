@@ -1,4 +1,3 @@
-
 <!DOCTYPE html>
 <html lang="en">
 <head>
@@ -35,48 +34,50 @@
                     </div>
                     <?php
                     // Include config file with db connection
-                    require_once "MySql/config.php";
-                    
-                    // Attempt select query execution
-                    $sql = "SELECT * FROM Employees";
-                    if($result = $conn->query($sql)){
+                    require_once "HttpRequestBase.php";
+                    //access list of employees through api using CurL
+                    $curl = new HttpRequestBase();
+                    $curl->setUpCurlUrl("http://localhost/EmpApi/employee/list");
+                    $curl->setUpGetReq();
+                    $employees = (array) $curl->executeCurl();
+                    $employeesFinal = $employees['output'];
 
-                        if($result->num_rows > 0){
-                            echo '<table class="table table-bordered table-striped">';
-                                echo "<thead>";
-                                    echo "<tr>";
-                                        echo "<th>First Name</th>";
-                                        echo "<th>Last Name</th>";
-                                        echo "<th>Salary</th>";
-                                        echo "<th>Action</th>";
-                                    echo "</tr>";
-                                echo "</thead>";
-                                echo "<tbody>";
-                                while($row = $result->fetch_array()){
-                                    echo "<tr>";
-                                        echo "<td>" . $row['firstname'] . "</td>";
-                                        echo "<td>" . $row['lastname'] . "</td>";
-                                        echo "<td>" . $row['salary'] . "</td>";
-                                        echo "<td>";
-                                           // echo '<a href="read.php?id='. $row['id'] .'" class="mr-3" title="View Record" data-toggle="tooltip"><span class="fa fa-eye"></span></a>';
-                                            echo '<a href="update.php?id='. $row['id'] .'" class="mr-3" title="Update Record" data-toggle="tooltip"><span class="fa fa-pencil"></span></a>';
-                                            echo '<a href="delete.php?id='. $row['id'] .'" title="Delete Record" data-toggle="tooltip"><span class="fa fa-trash"></span></a>';
-                                        echo "</td>";
-                                    echo "</tr>";
-                                }
-                                echo "</tbody>";                            
-                            echo "</table>";
-                            // Free result set
-                            $result->free();
-                        } else{
-                            echo '<div class="alert alert-danger"><em>No records were found.</em></div>';
-                        }
+
+                    //var_dump($employeesFinal)
+                    $i=0;
+
+                    if($employeesFinal){
+                        echo '<table class="table table-bordered table-striped">';
+                            echo "<thead>";
+                                echo "<tr>";
+                                    echo "<th>First Name</th>";
+                                    echo "<th>Last Name</th>";
+                                    echo "<th>Salary</th>";
+                                    echo "<th>Action</th>";
+                                echo "</tr>";
+                            echo "</thead>";
+                            echo "<tbody>";
+                            while($row = (array) $employeesFinal[$i]) {
+                                echo "<tr>";
+                                    echo "<td>" . $row['firstname'] . "</td>";
+                                    echo "<td>" . $row['lastname'] . "</td>";
+                                    echo "<td>" . $row['salary'] . "</td>";
+                                    echo "<td>";
+                                        // echo '<a href="read.php?id='. $row['id'] .'" class="mr-3" title="View Record" data-toggle="tooltip"><span class="fa fa-eye"></span></a>';
+                                        echo '<a href="update.php?id='. $row['id'] .'" class="mr-3" title="Update Record" data-toggle="tooltip"><span class="fa fa-pencil"></span></a>';
+                                        echo '<a href="delete.php?id='. $row['id'] .'" title="Delete Record" data-toggle="tooltip"><span class="fa fa-trash"></span></a>';
+                                    echo "</td>";
+                                echo "</tr>";
+                                $i++;
+                            }
+                            echo "</tbody>";                            
+                        echo "</table>";
+                        // Free result set
+                        $result->free();
                     } else{
-                        echo "Oops! Something went wrong. Please try again later.";
+                        echo '<div class="alert alert-danger"><em>No records were found.</em></div>';
                     }
-                    
-                    // Close connection
-                    $conn->close();
+            
                     ?>
                 </div>
             </div>        
