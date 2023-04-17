@@ -37,15 +37,15 @@
                     require_once "HttpRequestBase.php";
                     //access list of employees through api using CurL
                     $curl = new HttpRequestBase();
-                    $curl->setUpCurlUrl("http://localhost/EmpApi/employee/list");
+                    $curl->setUpCurlUrl("http://localhost/TakeHome/employee/list");
                     $curl->setUpGetReq();
                     $employees = (array) $curl->executeCurl();
                     $employeesFinal = $employees['output'];
+                    $curl->killCurl();
 
 
                     //var_dump($employeesFinal)
                     $i=0;
-
                     if($employeesFinal){
                         echo '<table class="table table-bordered table-striped">';
                             echo "<thead>";
@@ -72,8 +72,6 @@
                             }
                             echo "</tbody>";                            
                         echo "</table>";
-                        // Free result set
-                        $result->free();
                     } else{
                         echo '<div class="alert alert-danger"><em>No records were found.</em></div>';
                     }

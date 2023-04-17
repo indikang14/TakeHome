@@ -23,8 +23,9 @@ class HttpRequestBase {
 
     function setUpPostReq(array $postBody) {
         curl_setopt($this->ch, CURLOPT_POST, TRUE);
-        $postBody = json_encode($postBody);
-        curl_setopt($this->ch, CURLOPT_POSTFIELDS, $postBody);
+        //json_encode($postBody);
+
+        curl_setopt($this->ch, CURLOPT_POSTFIELDS, json_encode($postBody));
     }
 
     function setUpGetReq() {
@@ -36,6 +37,9 @@ class HttpRequestBase {
             trigger_error(curl_error($this->ch));
         }    
         return json_decode($result);
+    }
+    function killCurl() {
+        curl_close($this->ch);
     }
 }
 ?>

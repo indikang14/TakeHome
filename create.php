@@ -1,6 +1,6 @@
 <?php
 // Include config file
-require_once "MySql/config.php";
+require_once "HttpRequestBase.php";
  
 // Define employee variables and initialize
 $first_name = $last_name = $salary = "";
@@ -42,35 +42,27 @@ if($_SERVER["REQUEST_METHOD"] == "POST"){
      }
     // Check input errors before inserting in database
     if(empty($first_name_err) && empty($last_name_err) && empty($salary_err) ){
-        // Prepare an insert statement into Employees table
-        $sql = "INSERT INTO Employees (firstname, lastname, salary ) VALUES (?, ?, ?)";
-        mysqli_report(MYSQLI_REPORT_ERROR | MYSQLI_REPORT_STRICT);
-        if($stmt = mysqli_prepare($conn, $sql)){
-            // Bind variables to the prepared statement as parameters
-            mysqli_stmt_bind_param($stmt, "ssi", $param_first_name, $param_last_name, $param_salary);
-            
-            // Set parameters
-            $param_first_name = $first_name;
-            $param_last_name = $last_name;
-            $param_salary = $salary;
-            
-            // Attempt to execute the prepared statement
-            if(mysqli_stmt_execute($stmt)){
-                // Records created successfully. Redirect to landing page
-                header("location: index.php");
-                exit();
-            } else{
-                echo "Oops! Something went wrong. Please try again later.";
-            }
+        $curl = new HttpRequestBase();
+        $curl->setUpCurlUrl("http://localhost/TakeHome/employee/create/");
+        $newEmployeeDetails = array("firstname" => $first_name,
+                                    "lastname"=> $last_name,
+                                    "salary" => $salary);
+        //var_dump($newEmployeeDetails);
+        
+        $curl->setUpPostReq($newEmployeeDetails);
+        $result = $curl->executeCurl();
+        var_dump($result);
+        die("let's stop right here!");
+        
+        if($result){
+            // Records created successfully. Redirect to landing page
+            header("location: index.php");
+            exit();
+        } else{
+            echo "Oops! Something went wrong. Please try again later.";
         }
-         
-        // Close statement
-        mysqli_stmt_close($stmt);
-    }
-    
-    // Close connection
-    mysqli_close($conn);
-}
+    }   
+ }
 ?>
  
 <!DOCTYPE html>
