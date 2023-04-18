@@ -13,6 +13,6 @@ Configuration Steps:
 
 * please go to TakeHome/dbcontroller.php and add your local MySql server settings at the top of the class (i.e host, username, password), please leave the database name unchanged
 
-*the dashboard should now be seen from http://localhost/TakeHome/index.php page
+* the dashboard should now be seen from http://localhost/TakeHome/index.php page
 
 
