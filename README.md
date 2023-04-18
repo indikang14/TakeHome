@@ -1,20 +1,11 @@
 # TakeHome
 Take home assignment for E Capital 
-### Goal: ###
-* Create an Employee Table like the one in the image below.
-* Use any front-end framework (Angular, React, Vue, ect...) or CSS library to accomplish this.
-* Implement the back-end API with a Node.js framework, and a SQL database
 
-### Functional Requirements: ###
-* Initially, list all employees that are in data.json
-  * First name, last name, and salary in currency format (ie. $42,000)
-* The ability to edit an employee
-* The ability to delete an employee
-* The ability to create a new employee
+Configuration Steps: 
+* start by unzipping/cloning the repository to your root server folder (where you are running Apache or Nginx)
+* open a connection to your root MySQL server and please copay and paste the dbConfig.sql into a query wizard on your MySQL client
+* please take a moment to make sure the Database 'TakeHome' has been added, as well as the table 'TakeHome' with 4 populated entries
+* Next, the project folder has an .htAcess file, that maps url to some project folders for cleanliness; please make sure that file has the chmod 644 permission so you have access locally (i.e $ chmod 644 .htAcess)
+*the dashboard should now be seen from http://localhost/TakeHome/index.php page
 
-### Technical Guidelines: ###
-* Structure your application and components in a modular/reusable way
-* Commit code with useful and informative comments
-* Your application doesn't have to use the data.json file directly, but have a SQL script to initialize your database with data found in that file
-* Implement API code to read and write to a SQL database
-* Styling: CSS or SCSS or SASS can be used, whichever you prefer (can use popular UI frameworks like Bootstrap as well)
+
