@@ -33,7 +33,7 @@
                         <a href="create.php" class="btn btn-success pull-right"><i class="fa fa-plus"></i> Add New Employee</a>
                     </div>
                     <?php
-                    // Include config file with db connection
+                    
                     require_once "HttpRequestBase.php";
                     //access list of employees through api using CurL
                     $curl = new HttpRequestBase();
@@ -44,7 +44,6 @@
                     $curl->killCurl();
 
 
-                    //var_dump($employeesFinal)
                     $i=0;
                     if($employeesFinal){
                         echo '<table class="table table-bordered table-striped">';
@@ -58,8 +57,6 @@
                             echo "</thead>";
                             echo "<tbody>";
                             while($row = (array) $employeesFinal[$i]) {
-                                //$formatSalary = $row['salary'];
-
                                 echo "<tr>";
                                     echo "<td>" . $row['firstname'] . "</td>";
                                     echo "<td>" . $row['lastname'] . "</td>";
