@@ -52,18 +52,19 @@
                                 echo "<tr>";
                                     echo "<th>First Name</th>";
                                     echo "<th>Last Name</th>";
-                                    echo "<th>Salary</th>";
+                                    echo "<th>Annual Salary</th>";
                                     echo "<th>Action</th>";
                                 echo "</tr>";
                             echo "</thead>";
                             echo "<tbody>";
                             while($row = (array) $employeesFinal[$i]) {
+                                //$formatSalary = $row['salary'];
+
                                 echo "<tr>";
                                     echo "<td>" . $row['firstname'] . "</td>";
                                     echo "<td>" . $row['lastname'] . "</td>";
-                                    echo "<td>" . $row['salary'] . "</td>";
+                                    echo "<td> $" .number_format($row['salary'],2) . "</td>";
                                     echo "<td>";
-                                        // echo '<a href="read.php?id='. $row['id'] .'" class="mr-3" title="View Record" data-toggle="tooltip"><span class="fa fa-eye"></span></a>';
                                         echo '<a href="update.php?id='. $row['id'] .'" class="mr-3" title="Update Record" data-toggle="tooltip"><span class="fa fa-pencil"></span></a>';
                                         echo '<a href="delete.php?id='. $row['id'] .'" title="Delete Record" data-toggle="tooltip"><span class="fa fa-trash"></span></a>';
                                     echo "</td>";

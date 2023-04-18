@@ -1,6 +1,6 @@
 <?php
 // Include config file
-require_once "MySql/config.php";
+require_once "HttpRequestBase.php";
  
 // Define variables and initialize with empty values
 $first_name = $last_name = $salary = "";
@@ -22,7 +22,7 @@ if(isset($_POST["id"]) && !empty($_POST["id"])){
     }
     // Validate last name 
     $input_last_name = trim($_POST["lastname"]);
-    var_dump($input_last_name);
+    //var_dump($input_last_name);
     if(empty($input_last_name)){
         $last_name_err = "Please enter a last name.";
     } elseif(!filter_var($input_last_name, FILTER_VALIDATE_REGEXP, array("options"=>array("regexp"=>"/^[a-zA-Z\s]+$/")))){
@@ -43,80 +43,58 @@ if(isset($_POST["id"]) && !empty($_POST["id"])){
     
     // Check input errors before inserting in database
     if(empty($first_name_err) && empty($last_name_err) && empty($salary_err)){
-        // Prepare an update statement
-        $sql = "UPDATE Employees SET firstname=?, lastname=?, salary=? WHERE id=?";
- 
-        if($stmt = $conn->prepare($sql)){
-            // Bind variables to the prepared statement as parameters
-            $stmt->bind_param("ssii", $param_first_name, $param_last_name, $param_salary, $param_id);
+        
+            if(isset($_POST["id"])) {
+                $id = trim($_POST["id"]);
+                $url = "http://localhost/TakeHome/employee/update/".$id."/";
+                var_dump($url);
+               
+                $curl = new HttpRequestBase();
+                $curl->setUpCurlUrl("http://localhost/TakeHome/employee/update/".$id."/");
+                $updateEmployeeDetails = array("firstname" => $first_name,
+                                                "lastname"=> $last_name,
+                                                "salary" => $salary);
+                $curl->setUpPostReq($updateEmployeeDetails);
+                $result = $curl->executeCurl();
             
-            // Set parameters
-            $param_first_name = $first_name;
-            $param_last_name = $last_name;
-            $param_salary = $salary;
-            $param_id = $id;
-            
-            // Attempt to execute the prepared statement
-            if($stmt->execute()){
-                // Records updated successfully. Redirect to landing page
                 header("location: index.php");
                 exit();
-            } else{
-                echo "Oops! Something went wrong. Please try again later.";
+                
+                
             }
+      
+            // Records updated successfully. Redirect to landing page
+            
+            
+            //echo "Oops! Something went wrong. Please try again later.";
+        
         }
-         
-        // Close statement
-        $stmt->close();
-    }
-    
-    // Close connection
-    $conn->close();
+        
 } else{
     // Check existence of id parameter before processing further
     if(isset($_GET["id"]) && !empty(trim($_GET["id"]))){
         // Get URL parameter
         $id =  trim($_GET["id"]);
+       
+
+        $curl = new HttpRequestBase();
+        //api call to grab the employee info of singular id
+        $curl->setUpCurlUrl("http://localhost/TakeHome/employee/list/".$id."/");
+        $curl->setUpGetReq();
         
-        // Prepare a select statement
-        $sql = "SELECT * FROM Employees WHERE id = ?";
-        if($stmt = $conn->prepare($sql)){
-            // Bind variables to the prepared statement as parameters
-            $stmt->bind_param("i", $param_id);
-            
-            // Set parameters
-            $param_id = $id;
-            
-            // Attempt to execute the prepared statement
-            if($stmt->execute()){
-                $result = $stmt->get_result();
-                
-                if($result->num_rows == 1){
-                    /* Fetch result row as an associative array. Since the result set
-                    contains only one row, we don't need to use while loop */
-                    $row = $result->fetch_array(MYSQLI_ASSOC);
-                    
-                    // Retrieve individual field value
-                    $first_name = $row["firstname"];
-                    $last_name = $row["lastname"];
-                    $salary = $row["salary"];
-                } else{
-                    // URL doesn't contain valid id. Redirect to error page
-                    header("location: error.php");
-                    exit();
-                }
-                
-            } else{
-                echo "Oops! Something went wrong. Please try again later.";
-            }
+        $employees = (array) $curl->executeCurl();
+        $employeesFinal = $employees['output'];
+
+        $singleEmployee = (array) $employeesFinal[0];
+        if(sizeof($employeesFinal) == 1) {
+            $first_name = $singleEmployee["firstname"];
+            $last_name = $singleEmployee["lastname"];
+            $salary = $singleEmployee["salary"];
         }
+        $curl->killCurl();
         
-        // Close statement
-        $stmt->close();
-        
-        // Close connection
-        $conn->close();
-    }  else{
+            
+    } else{
         // URL doesn't contain id parameter. Redirect to error page
         header("location: error.php");
         exit();

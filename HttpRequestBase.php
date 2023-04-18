@@ -1,8 +1,6 @@
 <?php
 class HttpRequestBase {
 	private $ch = "";
-    //private $httpHeaderArray = ['Content-Type: application/json', 'Accept: application/json'];
-
 	function __construct() {
 		
 		if($ch = curl_init()) {
@@ -23,9 +21,10 @@ class HttpRequestBase {
 
     function setUpPostReq(array $postBody) {
         curl_setopt($this->ch, CURLOPT_POST, 1);
-        curl_setopt($this->ch, CURLOPT_HTTPHEADER, array('Content-Type:application/x-www-form-urlencoded',
-        'Accept:application/json') );
+        curl_setopt($this->ch, CURLOPT_HTTPHEADER, 
+        array('Accept:application/json','Content-Type:application/x-www-form-urlencoded') );
         $postBodyString = http_build_query($postBody);
+        var_dump($postBodyString);
 
         curl_setopt($this->ch, CURLOPT_POSTFIELDS, $postBodyString );
     }
@@ -40,6 +39,7 @@ class HttpRequestBase {
         }    
         return json_decode($result);
     }
+
     function killCurl() {
         curl_close($this->ch);
     }
