@@ -6,11 +6,10 @@ if(isset($_POST["id"]) && !empty($_POST["id"])){
     $curl = new HttpRequestBase();
     $curl-> setUpGetReq();
     $id = $_POST["id"];
-    var_dump($id);
     $curl->setUpCurlUrl("http://localhost/TakeHome/employee/delete/".$id."/");
     $result = $curl->executeCurl();
     if(!$result) {
-        die("delete api couldnt be reached!");
+        echo "API could not be reached!";
     }
     $curl->killCurl();
 

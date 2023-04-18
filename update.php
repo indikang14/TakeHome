@@ -47,7 +47,6 @@ if(isset($_POST["id"]) && !empty($_POST["id"])){
             if(isset($_POST["id"])) {
                 $id = trim($_POST["id"]);
                 $url = "http://localhost/TakeHome/employee/update/".$id."/";
-                var_dump($url);
                
                 $curl = new HttpRequestBase();
                 $curl->setUpCurlUrl("http://localhost/TakeHome/employee/update/".$id."/");

@@ -1,6 +1,7 @@
 <?php 
 /*
 A simple RESTful webservices base class
+Help with debugging erroneous HTTP requests
 */
 class SimpleRest {
 	

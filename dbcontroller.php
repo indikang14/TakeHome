@@ -1,9 +1,12 @@
 <?php
 class DBController {
 	private $conn = "";
+	//replace with your local host server
 	private $host = "127.0.0.1";
+	//replace with your user 
 	private $user = "root";
 	private $password = "Bluejays@14";
+	//this Database will be created using dbConfig.sql
 	private $database = "TakeHome";
 
 	function __construct() {

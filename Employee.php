@@ -68,7 +68,6 @@ Class Employee {
 				$salary = trim($_POST["salary"]);
 			}	
 			$query = "UPDATE Employees SET firstname = '".$first_name."',lastname ='". $last_name ."', salary = '".(int) $salary ."' WHERE id = ".$id;
-			var_dump($query);
 			$dbcontroller = new DBController();
 			$result = $dbcontroller->executeQuery($query);
 			if($result!= 0){

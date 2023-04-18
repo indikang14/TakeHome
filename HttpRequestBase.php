@@ -11,7 +11,7 @@ class HttpRequestBase {
             curl_setopt($this->ch, CURLOPT_RETURNTRANSFER, 1);
 		}
         else{
-            die("curl handle could not be inititiated!");
+            echo "curl handle could not be inititiated!";
         }
 	}
 	
@@ -24,7 +24,6 @@ class HttpRequestBase {
         curl_setopt($this->ch, CURLOPT_HTTPHEADER, 
         array('Accept:application/json','Content-Type:application/x-www-form-urlencoded') );
         $postBodyString = http_build_query($postBody);
-        var_dump($postBodyString);
 
         curl_setopt($this->ch, CURLOPT_POSTFIELDS, $postBodyString );
     }

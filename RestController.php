@@ -6,7 +6,7 @@ if(isset($_GET["page_key"]))
 	$page_key = $_GET["page_key"];
 /*
 controls the RESTful services
-URL mapping
+URL mapping from .htcAccess file 
 */
 	switch($page_key){
 

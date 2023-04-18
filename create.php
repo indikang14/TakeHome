@@ -6,7 +6,6 @@ require_once "HttpRequestBase.php";
 $first_name = $last_name = $salary = "";
 $first_name_err = $last_name_err = $salary_err = "";
 
-//var_dump($_SERVER);
  
 // Processing form data when form is submitted
 if($_SERVER["REQUEST_METHOD"] == "POST"){
@@ -50,7 +49,6 @@ if($_SERVER["REQUEST_METHOD"] == "POST"){
         
         $curl->setUpPostReq($newEmployeeDetails);
         $result = $curl->executeCurl();
-        var_dump($result);
         $curl->killCurl();
         if($result){
             // Records created successfully. Redirect to landing page

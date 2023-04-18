@@ -1,4 +1,5 @@
 <?php
+//formatting HTTP requests with handler class
 require_once("SimpleRest.php");
 require_once("Employee.php");
 		
@@ -8,8 +9,6 @@ class EmployeeRestHandler extends SimpleRest {
 
 		$employee = new Employee();
 		$rawData = $employee->getAllEmployees();
-		//var_dump($rawData);
-		//die("next stage!");
 
 		if(empty($rawData)) {
 			$statusCode = 404;
@@ -22,8 +21,6 @@ class EmployeeRestHandler extends SimpleRest {
 		$this ->setHttpHeaders($requestContentType, $statusCode);
 		
 		$result["output"] = $rawData;
-
-		//echo($result["output"]);
 				
 		if(strpos($requestContentType,'application/json') !== false){
 			$response = $this->encodeJson($result);
