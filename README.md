@@ -7,7 +7,7 @@ Configuration Steps:
 
 * open a connection to your root MySQL server and please copy and paste the dbConfig.sql into a query wizard on your MySQL client
 
-* please take a moment to make sure the Database 'TakeHome' has been added, as well as the table 'TakeHome' with 4 populated entries
+* please take a moment to make sure the Database 'TakeHome' has been added, as well as the table 'Employees' with 4 populated entries
 
 * Next, the project folder has an .htAcess file, that maps url to some project folders for cleanliness; please make sure that file has the chmod 644 permission so you have access locally (i.e $ chmod 644 .htAcess)
 
