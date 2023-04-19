@@ -3,17 +3,20 @@ Options +FollowSymlinks
 RewriteEngine on
 
 # map neat URL to internal URL
-RewriteRule ^employee/list/$   RestController.php?page_key=list [nc,qsa]
-RewriteRule ^employee/list$    RestController.php?page_key=list [nc,qsa]
+RewriteRule ^employee/list/$   EmployeeRestController.php?page_key=list [nc,qsa]
+RewriteRule ^employee/list$    EmployeeRestController.php?page_key=list [nc,qsa]
 
-RewriteRule ^employee/list/([0-9]+)/$   RestController.php?page_key=list&id=$1 [L]
+RewriteRule ^employee/list/([0-9]+)/$   EmployeeRestController.php?page_key=list&id=$1 [L]
 RewriteRule ^employee/list([0-9]+)$     employee/list/$1  [L,R=301]
 
-RewriteRule ^employee/create/$   RestController.php?page_key=create [L]
+RewriteRule ^company/list/$   CompanyRestController.php?page_key=list [nc,qsa]
+RewriteRule ^company/list$    CompanyRestController.php?page_key=list [nc,qsa]
+
+RewriteRule ^employee/create/$   EmployeeRestController.php?page_key=create [L]
 RewriteRule ^employee/create$    employee/create/ [L,R=301]
 
-RewriteRule ^employee/delete/([0-9]+)/$   RestController.php?page_key=delete&id=$1 [L]
+RewriteRule ^employee/delete/([0-9]+)/$   EmployeeRestController.php?page_key=delete&id=$1 [L]
 RewriteRule ^employee/delete([0-9]+)$    employee/delete/$1 [L,R=301]
 
-RewriteRule ^employee/update/([0-9]+)/$   RestController.php?page_key=update&id=$1 [L]
+RewriteRule ^employee/update/([0-9]+)/$   EmployeeRestController.php?page_key=update&id=$1 [L]
 RewriteRule ^employee/update/([0-9]+)$    employee/update/$1 [L,R=301]

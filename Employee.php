@@ -13,7 +13,8 @@ Class Employee {
 			$query = 'SELECT * FROM Employees WHERE id = ' .$id;
 		}
 		else {
-			$query = 'SELECT * FROM Employees';
+			$query = 'Select e.firstname, e.lastname, e.salary, c.companyName From Employees e
+			Join Company c ON e.companyId = c.companyId' ;
 		}
 		$dbcontroller = new DBController();
 		$this->employees = $dbcontroller->executeSelectQuery($query);

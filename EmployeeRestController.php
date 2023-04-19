@@ -2,8 +2,10 @@
 require_once("EmployeeRestHandler.php");
 $method = $_SERVER['REQUEST_METHOD'];
 $view = "";
-if(isset($_GET["page_key"]))
+if(isset($_GET["page_key"])) {
 	$page_key = $_GET["page_key"];
+	//$view = $_GET["view"];
+}
 /*
 controls the RESTful services
 URL mapping from .htcAccess file 
