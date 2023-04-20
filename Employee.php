@@ -14,7 +14,7 @@ Class Employee {
 		}
 		else {
 			$query = 'Select e.firstname, e.lastname, e.salary, c.companyName From Employees e
-			Join Company c ON e.companyId = c.companyId' ;
+			Join Company c ON e.companyId = c.companyId ';
 		}
 		$dbcontroller = new DBController();
 		$this->employees = $dbcontroller->executeSelectQuery($query);
@@ -33,7 +33,10 @@ Class Employee {
 			if(isset($_POST['salary'])){
 				$salary = $_POST['salary'];
 			}	
-			$query = "insert into Employees (firstname,lastname,salary) values ('" . $first_name ."','". $last_name ."','" . $salary ."')";
+			if(isset($_POST['companyId'])){
+				$company_id = $_POST['companyId'];
+			}	
+			$query = "insert into Employees (firstname,lastname,salary,companyId) values ('" . $first_name ."','". $last_name ."','" . $salary ."','" . $company_id ."')";
 			$dbcontroller = new DBController();
 			$result = $dbcontroller->executeQuery($query);
 			if($result != 0){

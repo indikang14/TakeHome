@@ -6,6 +6,18 @@ require_once "HttpRequestBase.php";
 $first_name = $last_name = $salary = "";
 $first_name_err = $last_name_err = $salary_err = "";
 
+$curl = new HttpRequestBase();
+$curl -> setUpCurlUrl("http://localhost/TakeHome/company/list");
+$curl -> setUpGetReq();
+$companies = (array) $curl->executeCurl();
+//var_dump($companies);
+$companiesFinal = $companies['output'];
+//var_dump($companiesFinal);
+$curl->killCurl();
+
+
+
+
  
 // Processing form data when form is submitted
 if($_SERVER["REQUEST_METHOD"] == "POST"){
@@ -39,13 +51,17 @@ if($_SERVER["REQUEST_METHOD"] == "POST"){
      } else{
          $salary = $input_salary;
      }
+
+     //Validate CompanyId
+     $company_id = trim($_POST["company-names"]);
     // Check input errors before accessing create api
-    if(empty($first_name_err) && empty($last_name_err) && empty($salary_err) ){
+    if(empty($first_name_err) && empty($last_name_err) && empty($salary_err) && !empty($company_id) ){
         $curl = new HttpRequestBase();
         $curl->setUpCurlUrl("http://localhost/TakeHome/employee/create/");
         $newEmployeeDetails = array("firstname" => $first_name,
                                     "lastname"=> $last_name,
-                                    "salary" => $salary);
+                                    "salary" => $salary,
+                                    "companyId" => $company_id);
         
         $curl->setUpPostReq($newEmployeeDetails);
         $result = $curl->executeCurl();
@@ -96,6 +112,20 @@ if($_SERVER["REQUEST_METHOD"] == "POST"){
                             <label>Salary(Annual)</label>
                             <input type="text" name="salary" class="form-control <?php echo (!empty($salary_err)) ? 'is-invalid' : ''; ?>" value="<?php echo $salary; ?>">
                             <span class="invalid-feedback"><?php echo $salary_err;?></span>
+                        </div>
+                        <div class="form-group">
+                            <label for="company-names">Select a Company</label>
+                            <select id="company-names" name="company-names">
+                            <?php 
+                            for($i = 0; $i < sizeof($companiesFinal); $i ++) {
+                                $company =  (array) $companiesFinal[$i];
+                                ?>
+                                <option value= "<?php echo $company['companyId'] ?>"> <?php echo $company['companyName'] ?> </option>
+                                <?php  
+                            }
+                            ?>
+                            </select>
+                           <span class="invalid-feedback"><?php echo $salary_err;?></span>
                         </div>
                         <input type="submit" class="btn btn-primary" value="Submit">
                         <a href="index.php" class="btn btn-secondary ml-2">Cancel</a>
