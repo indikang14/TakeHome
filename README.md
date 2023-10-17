@@ -1,5 +1,4 @@
-# TakeHome
-Take home assignment for E Capital 
+# CRUD PHP APP
 
 Configuration Steps: 
 
